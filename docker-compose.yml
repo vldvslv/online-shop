@@ -1,0 +1,60 @@
+# Docker Compose Configuration
+# Chrono Luxe - Luxury Watch E-Commerce Platform
+# 
+# Services:
+# - backend: Node.js REST API (Port 3000)
+# - frontend: Flutter Web (Port 80)
+#
+# Usage:
+#   docker-compose up --build
+#   docker-compose down
+
+version: '3.8'
+
+services:
+  # ============================================================================
+  # BACKEND SERVICE - Node.js REST API
+  # ============================================================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chrono-luxe-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    restart: unless-stopped
+    networks:
+      - chrono-luxe-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ============================================================================
+  # FRONTEND SERVICE - Flutter Web (Nginx)
+  # ============================================================================
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: chrono-luxe-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - chrono-luxe-network
+
+# ============================================================================
+# NETWORK CONFIGURATION
+# ============================================================================
+networks:
+  chrono-luxe-network:
+    driver: bridge
+    name: chrono-luxe-network
