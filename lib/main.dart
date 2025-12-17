@@ -1922,7 +1922,7 @@ class _CtaSection extends StatelessWidget {
           const SizedBox(height: 40),
           Container(
             constraints: const BoxConstraints(maxWidth: 500),
-            height: 56,
+            height: 52,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -2196,7 +2196,7 @@ class _CollectionPageState extends State<CollectionPage> {
                           crossAxisCount: isDesktop ? 4 : (isTablet ? 3 : 2),
                           crossAxisSpacing: isMobile ? 8 : 24,
                           mainAxisSpacing: isMobile ? 8 : 24,
-                          childAspectRatio: isMobile ? 0.62 : 0.75,
+                          childAspectRatio: isMobile ? 0.68 : 0.75,
                         ),
                         itemCount: filteredProducts.length,
                         itemBuilder:
